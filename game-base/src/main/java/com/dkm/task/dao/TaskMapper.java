@@ -16,7 +16,7 @@ import java.util.List;
  * @create: 2020-06-08 15:27
  **/
 @Repository
-public interface TaskDao extends BaseMapper<TaskEntity> {
+public interface TaskMapper extends BaseMapper<TaskEntity> {
 
 
     /**
@@ -25,11 +25,11 @@ public interface TaskDao extends BaseMapper<TaskEntity> {
      * @param userId
      * @return
      */
-    @Select("SELECT t.*,IFNULL(tu.tu_process,0) as tu_process FROM ( " +
+    @Select("SELECT t.*,IFNULL(tu.tu_process,0) as tu_process,IFNULL(tu.complete,0) as complete,tu.time FROM ( " +
             "SELECT*FROM tb_task WHERE task_type=#{type}) t LEFT JOIN ( " +
-            "SELECT task_id,tu_process FROM tb_task_user WHERE user_id=#{userId}) tu ON t.task_id=tu.task_id")
+            "SELECT * FROM tb_task_user WHERE user_id=#{userId}) tu ON t.task_id=tu.task_id")
     List<TaskUserDetailVo> selectUserTask(@Param("type") Integer type,@Param("userId") Long userId);
 
-    @Update("update tb_user_info set user_info_gold = user_info_gold+#{gold}")
-    Integer updateUserInfo(@Param("gold") Integer gold);
+    @Update("update tb_user_info set user_info_gold = user_info_gold+#{gold},user_info_now_experience=user_info_now_experience+#{exp}")
+    Integer updateUserInfo(@Param("gold") Integer gold,@Param("exp") Integer exp);
 }

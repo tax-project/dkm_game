@@ -28,5 +28,6 @@ public class FriendRequestController {
     @CrossOrigin
     public FriendInfoBO friendRequest(@RequestBody FriendRequestVO friendRequestVO){
         return weChatService.friendRequest(friendRequestVO.getId());
+
     }
 }

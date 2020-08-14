@@ -6,6 +6,7 @@ import com.dkm.data.Result;
 import com.dkm.exception.ApplicationException;
 import com.dkm.feign.ResourceFeignClient;
 import com.dkm.feign.entity.AddGoodsInfo;
+import com.dkm.task.service.TaskService;
 import com.dkm.turntable.dao.GoodsDao;
 import com.dkm.turntable.dao.TurntableCouponDao;
 import com.dkm.turntable.entity.GoodsEntity;
@@ -14,6 +15,7 @@ import com.dkm.turntable.entity.vo.AddGoodsInfoVo;
 import com.dkm.turntable.entity.vo.TurntableInfoVo;
 import com.dkm.turntable.service.ITurntableService;
 import com.dkm.utils.IdGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,7 @@ import java.util.Random;
  * @create: 2020-06-11 10:05
  **/
 @Service
+@Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class TurntableServiceImpl implements ITurntableService {
 
@@ -43,6 +46,8 @@ public class TurntableServiceImpl implements ITurntableService {
     private TurntableCouponDao turntableCouponDao;
     @Resource
     private IdGenerator idGenerator;
+    @Resource
+    private TaskService taskService;
 
     @Override
     public List<TurntableInfoVo> getTurntable(Long userId, Integer type) {
@@ -90,5 +95,11 @@ public class TurntableServiceImpl implements ITurntableService {
         //增加物品
         Result result = resourceFeignClient.addBackpackGoods(addGoodsInfo);
         if (result.getCode() != 0) throw new ApplicationException(CodeType.FEIGN_CONNECT_ERROR, result.getMsg());
+        try {
+            taskService.setTaskProcess(userId,4L);
+        } catch (Exception e) {
+            log.info("转盘日常任务出错");
+            e.printStackTrace();
+        }
     }
 }

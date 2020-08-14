@@ -16,12 +16,14 @@ import com.dkm.pets.entity.dto.PetsDto;
 import com.dkm.pets.entity.dto.UserInfo;
 import com.dkm.pets.entity.vo.FeedPetInfoVo;
 import com.dkm.pets.service.PetService;
+import com.dkm.task.service.TaskService;
 import com.dkm.turntable.dao.GoodsDao;
 import com.dkm.turntable.entity.GoodsEntity;
 import com.dkm.utils.DateUtils;
 import com.dkm.utils.IdGenerator;
 import com.dkm.utils.StringUtils;
 import javassist.runtime.Desc;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,7 @@ import java.util.stream.Collectors;
  * @date 2020/5/9 9:17
  */
 @Service
+@Slf4j
 @Transactional(rollbackFor = Exception.class)
 public class PetServiceImpl implements PetService {
     @Resource
@@ -48,8 +51,7 @@ public class PetServiceImpl implements PetService {
     private IdGenerator idGenerator;
 
     @Resource
-    private GoodsDao goodsDao;
-
+    private TaskService taskService;
     @Resource
     private ResourceFeignClient resourceFeignClient;
 
@@ -161,6 +163,12 @@ public class PetServiceImpl implements PetService {
                 || petsMapper.updateById(petUserEntity) < 1 || result.getCode() != 0
                 || (petInfoVo.getPGrade() >= 10 && result1.getCode() != 0)) {
             throw new ApplicationException(CodeType.SERVICE_ERROR, "喂食失败");
+        }
+        try {
+            taskService.setTaskProcess(petInfoVo.getUserId(),2L);
+        } catch (Exception e) {
+            log.info("宠物喂食任务出错");
+            e.printStackTrace();
         }
         redisConfig.setString("pet" + petInfoVo.getUserId(), DateUtils.formatDateTime(LocalDateTime.now()));
     }

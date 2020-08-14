@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dkm.attendant.dao.AttendantMapper;
 import com.dkm.attendant.entity.vo.AttendantUserVo;
 import com.dkm.attendant.entity.vo.User;
+import com.dkm.backpack.entity.EquipmentEntity;
+import com.dkm.backpack.service.IEquipmentService;
 import com.dkm.config.RedisConfig;
 import com.dkm.constanct.CodeType;
 import com.dkm.data.Result;
@@ -83,6 +85,9 @@ public class SeedServiceImpl implements ISeedService {
 
     @Autowired
     private SeedUnlockMapper seedUnlockMapper;
+
+    @Autowired
+    private IEquipmentService iEquipmentService;
 
    @Autowired
    private RedisConfig redisConfig;
@@ -705,6 +710,63 @@ public class SeedServiceImpl implements ISeedService {
           throw new ApplicationException(CodeType.SERVICE_ERROR, "网络忙，请稍后再试");
        }
 
+    }
+
+    @Override
+    public Map<String, Object> personalExperience() {
+        Long experienceDifference;
+
+        UserLoginQuery user = localUser.getUser();
+
+        Result<UserInfoQueryBo> userInfoQueryBoResult = userFeignClient.queryUser(user.getId());
+        if(userInfoQueryBoResult.getCode()!=0){
+            log.info("user error");
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
+
+
+        UserInfoQueryBo data = userInfoQueryBoResult.getData();
+
+        //算出还需要多少经验升到下一级
+        experienceDifference=data.getUserInfoNextExperience()-data.getUserInfoNowExperience();
+
+
+        //得到我方装备信息
+        EquipmentEntity userAllEquipment1 = iEquipmentService.getUserAllEquipment(user.getId());
+        if(userAllEquipment1==null){
+            return null;
+        }
+
+        Map<String,Object> map=new HashMap<>(16);
+
+        /**
+         * 得到我方生命值
+         */
+        double ourHealth = userAllEquipment1.getBlood() + (userAllEquipment1.getBlood() * userAllEquipment1.getBloodAdd().doubleValue());
+        int ourHealth1 = (int) ourHealth;
+
+        //我的属性对象
+        PropertyValueVo propertyValueVo=new PropertyValueVo();
+        propertyValueVo.setArtisticTalent(userAllEquipment1.getTalent());
+        propertyValueVo.setCriticalHitProbability(userAllEquipment1.getCrit());
+        propertyValueVo.setLifeValue(ourHealth1);
+        propertyValueVo.setMaximumPhysicalStrength(data.getUserInfoAllStrength());
+
+
+        //用户经验对象
+        UserValueVo userValueVo=new UserValueVo();
+        userValueVo.setCurrentExperience(data.getUserInfoNowExperience());
+        userValueVo.setCurrentLevel(data.getUserInfoGrade());
+        userValueVo.setDifference(experienceDifference);
+        userValueVo.setNextLevel(data.getUserInfoGrade()+1);
+        userValueVo.setNextLevelExperienceValue(data.getUserInfoNextExperience());
+
+
+        map.put("propertyValue",propertyValueVo);
+        map.put("userValue",userValueVo);
+        map.put("userAllEquipment1",userAllEquipment1);
+
+        return map;
     }
 
 }

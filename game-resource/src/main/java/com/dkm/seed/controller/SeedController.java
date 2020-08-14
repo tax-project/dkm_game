@@ -169,4 +169,11 @@ public class SeedController {
         return iSeedService.updateSeedStatus(id);
     }
 
+    @ApiOperation(value = "查看自己个人经验信息", notes = "查看自己个人经验信息")
+    @GetMapping("/personalExperience")
+    @CrossOrigin
+    @CheckToken
+    public Map<String,Object> personalExperience(){
+        return iSeedService.personalExperience();
+    }
 }

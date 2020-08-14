@@ -8,16 +8,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="game-user" />
-        <module name="game-common" />
+        <module name="game-gateway" />
+        <module name="game-eureka" />
         <module name="game-websocket" />
         <module name="game-resource" />
         <module name="game-family" />
         <module name="game-chat" />
         <module name="game-file" />
-        <module name="game-eureka" />
-        <module name="game-base" />
         <module name="game-shop" />
-        <module name="game-gateway" />
+        <module name="game-base" />
+        <module name="game-common" />
         <module name="game-admin" />
       </profile>
     </annotationProcessing>
