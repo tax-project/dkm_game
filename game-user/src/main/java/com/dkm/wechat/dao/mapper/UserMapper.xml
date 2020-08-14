@@ -35,4 +35,7 @@
         </foreach>
     </select>
 
+    <select id="friendRequest" resultType="com.dkm.wechat.entity.bo.FriendInfoBO" parameterType="Long">
+        select user_id,we_chat_nick_name,we_chat_head_img_url,user_sex from tb_user where user_id = #{userId}
+    </select>
 </mapper>

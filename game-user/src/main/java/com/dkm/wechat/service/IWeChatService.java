@@ -6,11 +6,14 @@ import com.dkm.entity.bo.UserInfoBo;
 import com.dkm.entity.bo.UserInfoQueryBo;
 import com.dkm.entity.vo.UserInfoAttVo;
 import com.dkm.wechat.entity.User;
+import com.dkm.wechat.entity.bo.FriendInfoBO;
 import com.dkm.wechat.entity.bo.UserDataBO;
 import com.dkm.wechat.entity.bo.UserPartBO;
+import com.dkm.wechat.entity.vo.FriendRequestVO;
 import com.dkm.wechat.entity.vo.UserChatInfoVo;
 import com.dkm.wechat.entity.vo.UserLoginVo;
 import com.dkm.wechat.entity.vo.UserRegisterVo;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -82,4 +85,12 @@ public interface IWeChatService {
      * @return 用户信息集合
      */
     List<UserPartBO> queryUserPartAll(List<Long> userIdList);
+
+
+    /**
+     * 查询用户信息
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    FriendInfoBO friendRequest(Long userId);
 }

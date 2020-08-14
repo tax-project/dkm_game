@@ -418,14 +418,10 @@ public class AttendantServiceImpl implements IAttendantService {
             ourDefenses=userAllEquipment1.getTalent()+(userAllEquipment1.getTalent() * userAllEquipment1.getTalentAdd().doubleValue());
         }
 
-        //如果我方声望比对方高 我方先动手
-        if(userInfoQueryBoResult.getData().getUserInfoRenown()>userInfoQueryBoResultCaughtPeopleId.getData().getUserInfoRenown()) {
-            //我方先动手
-            map.put("status", 0);
-        }else{
-            //如果双方宠物相同 等级高的先动手
+
+            //如果双方宠物相同 声望高的先动手
             if(myPet.equals(hePet)){
-                if(myPetsDto.getPGrade()>hePetsDto.getPGrade()){
+                if(userInfoQueryBoResult.getData().getUserInfoRenown()>userInfoQueryBoResultCaughtPeopleId.getData().getUserInfoRenown()){
                     //我方先动手
                     map.put("status",0);
                 }else{
@@ -453,7 +449,6 @@ public class AttendantServiceImpl implements IAttendantService {
                 }else{
                     map.put("status",1);
                 }
-            }
         }
 
         map.put("userInfoQueryBoResult",userInfoQueryBoResult.getData());

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="game-user" />
+        <module name="game-gateway" />
+        <module name="game-eureka" />
+        <module name="game-websocket" />
+        <module name="game-resource" />
+        <module name="game-family" />
+        <module name="game-chat" />
+        <module name="game-file" />
+        <module name="game-shop" />
+        <module name="game-base" />
+        <module name="game-common" />
+        <module name="game-admin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="game-admin" target="1.8" />
+      <module name="game-base" target="1.8" />
+      <module name="game-chat" target="1.8" />
+      <module name="game-common" target="1.8" />
+      <module name="game-eureka" target="1.8" />
+      <module name="game-family" target="1.8" />
+      <module name="game-file" target="1.8" />
+      <module name="game-gateway" target="1.8" />
+      <module name="game-resource" target="1.8" />
+      <module name="game-shop" target="1.8" />
+      <module name="game-user" target="1.8" />
+      <module name="game-websocket" target="1.8" />
+      <module name="game_project" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="game-admin" options="-parameters" />
+      <module name="game-base" options="-parameters" />
+      <module name="game-chat" options="-parameters" />
+      <module name="game-common" options="-parameters" />
+      <module name="game-eureka" options="-parameters" />
+      <module name="game-family" options="-parameters" />
+      <module name="game-file" options="-parameters" />
+      <module name="game-gateway" options="-parameters" />
+      <module name="game-resource" options="-parameters" />
+      <module name="game-shop" options="-parameters" />
+      <module name="game-user" options="-parameters" />
+      <module name="game-websocket" options="-parameters" />
+    </option>
+  </component>
+</project>

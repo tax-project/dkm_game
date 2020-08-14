@@ -103,6 +103,7 @@ public class LongToJsonConfig extends WebMvcConfigurationSupport implements WebM
         registry.addResourceHandler("/webjars/**").addResourceLocations(
               "classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/img/**").addResourceLocations("file:/root/img/game-img/");
+//        registry.addResourceHandler("/img/**").addResourceLocations("file:E://img/game-img/");
         super.addResourceHandlers(registry);
     }
 

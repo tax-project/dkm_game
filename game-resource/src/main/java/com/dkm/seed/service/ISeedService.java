@@ -55,7 +55,7 @@ public interface ISeedService {
      * 根据用户id查询所有用户信息
      * @return
      */
-    Result<UserInfoQueryBo> queryUserAll();
+    Map<String,Object> queryUserAll();
 
     /**
      * 查询已经种植的种子
@@ -73,6 +73,10 @@ public interface ISeedService {
      */
     void collectSeed (SendCollectBO sendCollectBO);
 
+    /**
+     * 查看自己个人经验信息
+     */
+    Map<String,Object> personalExperience();
 
 
 }

@@ -75,8 +75,6 @@ public class SkillServiceImpl extends ServiceImpl<SkillMapper, Skill> implements
    @Autowired
    private IStarsService iStarsService;
 
-   @Autowired
-   private ITbEquipmentKnapsackService iTbEquipmentKnapsackService;
 
    @Override
    public void initSkill(Long userId) {

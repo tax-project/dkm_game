@@ -17,4 +17,5 @@ public interface TaskService {
 
     void getTaskReward(Long userId,Long taskId);
 
+    void setTaskProcess(Long userId,Long taskId);
 }

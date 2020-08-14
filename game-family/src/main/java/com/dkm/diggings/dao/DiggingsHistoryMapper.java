@@ -24,9 +24,9 @@ public interface DiggingsHistoryMapper extends BaseMapper<DiggingsHistoryEntity>
     List<DiggingsHistoryEntity> selectAccept(@Param("list") List<CollectionUtils.Pair<Long, Long>> list, @Param("familyId") Long familyId, @Param("date") LocalDateTime date);
 
 
-    List<PersonalVo> selectAllTheIntegral(Long familyId,LocalDateTime afterDate);
+    List<PersonalVo> selectAllTheIntegral(@Param("familyId") Long familyId, @Param("afterDate") LocalDateTime afterDate);
 
-    FamilyExperienceVo selectDiggingsExperienceSort(Long family);
+    FamilyExperienceVo selectDiggingsExperienceSort(@Param("family") Long family);
 
     Integer selectRanking(Long familyId);
 }

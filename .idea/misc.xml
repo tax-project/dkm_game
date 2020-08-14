@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/game-base" />
+    <file type="web" url="file://$PROJECT_DIR$/game-chat" />
+    <file type="web" url="file://$PROJECT_DIR$/game-family" />
+    <file type="web" url="file://$PROJECT_DIR$/game-file" />
+    <file type="web" url="file://$PROJECT_DIR$/game-gateway" />
+    <file type="web" url="file://$PROJECT_DIR$/game-resource" />
+    <file type="web" url="file://$PROJECT_DIR$/game-shop" />
+    <file type="web" url="file://$PROJECT_DIR$/game-user" />
+    <file type="web" url="file://$PROJECT_DIR$/game-websocket" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/game-base/pom.xml" />
+        <option value="$PROJECT_DIR$/game-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/game-chat/pom.xml" />
+        <option value="$PROJECT_DIR$/game-family/pom.xml" />
+        <option value="$PROJECT_DIR$/game-resource/pom.xml" />
+        <option value="$PROJECT_DIR$/game-shop/pom.xml" />
+        <option value="$PROJECT_DIR$/game-user/pom.xml" />
+        <option value="$PROJECT_DIR$/game-websocket/pom.xml" />
+        <option value="$PROJECT_DIR$/game-common/pom.xml" />
+        <option value="$PROJECT_DIR$/game-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/game-file/pom.xml" />
+        <option value="$PROJECT_DIR$/game-gateway/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
+  </component>
+</project>

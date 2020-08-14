@@ -28,7 +28,6 @@
         where user_id = #{userId}
     </update>
 
-
     <update id="cutUserInfo" parameterType="com.dkm.userInfo.entity.bo.IncreaseUserInfoBO">
         update tb_user_info
         <set>

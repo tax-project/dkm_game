@@ -29,7 +29,7 @@ public interface SeedMapper extends BaseMapper<Seed> {
      * 根据用户id修改金币和声望
      *
      */
-    int uploadUnlockMoneyAndPrestige(Integer unlockmoeny,Integer prestige,long userId);
+    int uploadUnlockMoneyAndPrestige(@Param("unlockmoeny") Integer unlockmoeny,@Param("prestige")Integer prestige,@Param("userId") long userId);
     /**
      * 修改碎片的当前进度
      *
@@ -63,7 +63,7 @@ public interface SeedMapper extends BaseMapper<Seed> {
      * @param seedId 种子id
      * @return
      */
-    int updateSeedPresentUnlock(long userId,Integer seedId,Integer seedPresentUnlock,Integer seedStatus);
+    int updateSeedPresentUnlock(@Param("userId") long userId,@Param("seedId")Integer seedId,@Param("seedPresentUnlock")Integer seedPresentUnlock,@Param("seedStatus")Integer seedStatus);
 
     /**
      *

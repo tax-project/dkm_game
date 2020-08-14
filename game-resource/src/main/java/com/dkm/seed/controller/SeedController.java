@@ -132,11 +132,11 @@ public class SeedController {
         return iSeedService.queryAreUnlocked(userId);
     }
 
-    @ApiOperation(value = "根据用户id查询用户所有信息", notes = "根据用户id查询用户所有信息")
+    @ApiOperation(value = "根据用户id查询用户所有信息(包括主人信息)", notes = "根据用户id查询用户所有信息(包括主人信息)")
     @GetMapping("/queryUserAll")
     @CrossOrigin
     @CheckToken
-    public Result<UserInfoQueryBo> queryUserAll(){
+    public  Map<String,Object> queryUserAll(){
        return iSeedService.queryUserAll();
     }
 
@@ -169,4 +169,11 @@ public class SeedController {
         return iSeedService.updateSeedStatus(id);
     }
 
+    @ApiOperation(value = "查看自己个人经验信息", notes = "查看自己个人经验信息")
+    @GetMapping("/personalExperience")
+    @CrossOrigin
+    @CheckToken
+    public Map<String,Object> personalExperience(){
+        return iSeedService.personalExperience();
+    }
 }

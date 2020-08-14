@@ -26,18 +26,18 @@ public class CancerServiceImpl implements ICancerService {
     @Resource
     private IBackpackService backpackService;
 
+    /**
+     * 注意啦，这个没有判断是否充值完成的，因为暂时不存在充值模块
+     */
 
     @Resource
     private RewardDao rewardDao;
 
     @Override
     public RechargeVo getSingleTopUp(Long userId) {
-        return getInfo(userId, 0);
+        return getInfo(userId, "豪华礼包");
     }
 
-    /**
-     * 注意啦，这个没有判断是否充值完成的，因为暂时不存在充值模块
-     */
     @Override
     public Boolean getSingleTopUpInfoCheck(Long userId, Integer id) {
         return receive(userId, id);
@@ -46,7 +46,7 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo getCumulativeRecharge(Long userId) {
-        return getInfo(userId, 1);
+        return getInfo(userId, "累计充值");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo getConsumerRecharge(Long id) {
-        return getInfo(id, 2);
+        return getInfo(id, "累计消耗");
     }
 
     @Override
@@ -71,12 +71,12 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo consumptionKing(Long id) {
-        return getInfo(id, 3);
+        return getInfo(id, "消耗有礼-金星");
     }
 
     @Override
     public RechargeVo consumptionPurple(Long id) {
-        return getInfo(id, 4);
+        return getInfo(id, "消耗有礼-紫卷");
     }
 
     @Override
@@ -86,7 +86,7 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo consumptionBlue(Long id) {
-        return getInfo(id, 5);
+        return getInfo(id, "消耗有礼-蓝卷");
     }
 
     @Override
@@ -96,7 +96,7 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo consumptionPurpleOffer(Long id) {
-        return getInfo(id, 6);
+        return getInfo(id, "消耗有礼-紫卷");
     }
 
     @Override
@@ -111,12 +111,12 @@ public class CancerServiceImpl implements ICancerService {
 
     @Override
     public RechargeVo consumptionOrange(Long id) {
-        return getInfo(id, 7);
+        return getInfo(id, "消耗有礼-橙卷");
     }
 
     @Override
     public RechargeVo getRechargeTheBlueRoll(Long id) {
-        return getInfo(id, 10);
+        return getInfo(id, "充值送蓝卷");
     }
 
     @Override
@@ -147,8 +147,8 @@ public class CancerServiceImpl implements ICancerService {
      * <p>
      * 注意啦，这个没有判断是否充值完成的，因为暂时不存在充值模块
      */
-    private RechargeVo getInfo(Long userId, int type) {
-        val rechargeItemVo = rewardDao.selectInfoByTypeAndUserId(type, userId);
+    private RechargeVo getInfo(Long userId, String typeName) {
+        val rechargeItemVo = rewardDao.selectInfoByTypeAndUserId(typeName, userId);
         val rechargeVo = new RechargeVo();
         rechargeVo.setPrizes(rechargeItemVo);
         return rechargeVo;

@@ -38,8 +38,9 @@ public interface EquipmentMapper extends IBaseMapper<EquipmentEntity> {
              ") ub LEFT JOIN tb_user_equipment ue on ub.backpack_id=ue.backpack_id WHERE ue.is_equip=1 and ue.eq_type = #{eqType}")
      EquipmentEntity getEquipId(@Param("userId") Long userId,@Param("eqType") Integer eqType);
 
-     @Select("SELECT max(blood) as blood,max(blood_add) as blood_add,max(renown) as renown, " +
-             "max(talent) as talent,max(talent_add) as talent_add,max(crit) as crit " +
+     @Select("SELECT sum(blood) as blood,sum(blood_add) as blood_add,sum(renown) as renown," +
+             "sum(talent) as talent,sum(talent_add) as talent_add,sum(crit) as crit," +
+             "sum(eq_drop) as eq_drop,sum(exp) as exp " +
              "FROM (" +
              "SELECT backpack_id FROM tb_user_backpack WHERE user_id = #{userId} ) ub " +
              "LEFT JOIN tb_user_equipment ue on ub.backpack_id=ue.backpack_id WHERE ue.is_equip = 1")

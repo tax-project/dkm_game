@@ -20,6 +20,7 @@ import com.dkm.utils.ShaUtils;
 import com.dkm.utils.StringUtils;
 import com.dkm.wechat.dao.UserMapper;
 import com.dkm.wechat.entity.User;
+import com.dkm.wechat.entity.bo.FriendInfoBO;
 import com.dkm.wechat.entity.bo.UserBO;
 import com.dkm.wechat.entity.bo.UserDataBO;
 import com.dkm.wechat.entity.bo.UserPartBO;
@@ -334,5 +335,14 @@ public class WeChatServiceImpl extends ServiceImpl<UserMapper,User> implements I
     @Override
     public List<UserPartBO> queryUserPartAll(List<Long> userIdList) {
         return baseMapper.queryUserPartAll(userIdList);
+    }
+
+    @Override
+    public FriendInfoBO friendRequest(Long userId) {
+        FriendInfoBO friendInfoBo = baseMapper.friendRequest(userId);
+        if (friendInfoBo==null){
+            throw new ApplicationException(CodeType.SERVICE_ERROR, "查无此人");
+        }
+        return friendInfoBo;
     }
 }

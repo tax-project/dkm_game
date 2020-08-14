@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface RewardDao {
 
-    List<RechargeItemVo> selectInfoByTypeAndUserId(@Param("type") int type, @Param("userId") Long userId);
+    List<RechargeItemVo> selectInfoByTypeAndUserId(@Param("typeName") String type, @Param("userId") Long userId);
 
     Integer selectItemSizeByItemIdAndType(Integer itemId, int type);
 

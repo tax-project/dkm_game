@@ -75,7 +75,7 @@ public class WebSocketServer implements CommandLineRunner {
                   pipeline.addLast(new HttpServerCodec());
                   pipeline.addLast(new HttpObjectAggregator(512 * 1024));
                   pipeline.addLast(new WebSocketServerProtocolHandler("/game",null,true,65536 * 5));
-                  pipeline.addLast(new ReadTimeoutHandler(10, TimeUnit.SECONDS));
+                  pipeline.addLast(new ReadTimeoutHandler(999999999, TimeUnit.SECONDS));
                   pipeline.addLast(new WriteTimeoutHandler(3,TimeUnit.SECONDS));
                   pipeline.addLast(new StringDecoder());
                   // 二进制文件加密传输

@@ -36,8 +36,8 @@
                  join tb_mall_reward_goods as b on a.id = b.mall_reward_id
                  LEFT JOIN tb_mall_reward_history as c ON a.id = c.mall_reward_id AND user_id = #{userId}
                  JOIN tb_goods d on b.goods_id = d.id
-        WHERE a.type = #{type};
-
+                 JOIN tb_mall_reward_info e on a.type = e.id
+        WHERE e.name = #{typeName}
     </select>
     <select id="selectItemSizeByItemIdAndType" resultType="java.lang.Integer">
         SELECT count(*)

@@ -2,7 +2,10 @@ package com.dkm.seed.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dkm.attendant.dao.AttendantMapper;
+import com.dkm.attendant.entity.vo.AttendantUserVo;
 import com.dkm.attendant.entity.vo.User;
+import com.dkm.backpack.entity.EquipmentEntity;
+import com.dkm.backpack.service.IEquipmentService;
 import com.dkm.config.RedisConfig;
 import com.dkm.constanct.CodeType;
 import com.dkm.data.Result;
@@ -38,7 +41,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.dkm.seed.vilidata.TimeLimit.TackBackLimit;
 
@@ -79,6 +85,9 @@ public class SeedServiceImpl implements ISeedService {
 
     @Autowired
     private SeedUnlockMapper seedUnlockMapper;
+
+    @Autowired
+    private IEquipmentService iEquipmentService;
 
    @Autowired
    private RedisConfig redisConfig;
@@ -406,15 +415,26 @@ public class SeedServiceImpl implements ISeedService {
     }
 
     @Override
-    public Result<UserInfoQueryBo> queryUserAll() {
+    public Map<String,Object> queryUserAll() {
         //得到用户token信息
         UserLoginQuery user = localUser.getUser();
         Result<UserInfoQueryBo> userInfoQueryBoResult = userFeignClient.queryUser(user.getId());
+
         if(userInfoQueryBoResult.getCode()!=0){
             log.info("user feign err");
             throw new ApplicationException(CodeType.SERVICE_ERROR,"网络忙，请稍后再试");
         }
-        return userInfoQueryBoResult;
+
+        Map<String,Object> map=new HashMap<>(16);
+
+        AttendantUserVo attendantUserVo = attendantMapper.queryAidUser(user.getId());
+        if(attendantUserVo==null){
+            map.put("status","0");
+        }else{
+            map.put("status",attendantUserVo);
+        }
+        map.put("userInfoQueryBoResult",userInfoQueryBoResult);
+        return map;
     }
 
     @Override
@@ -693,6 +713,63 @@ public class SeedServiceImpl implements ISeedService {
           throw new ApplicationException(CodeType.SERVICE_ERROR, "网络忙，请稍后再试");
        }
 
+    }
+
+    @Override
+    public Map<String, Object> personalExperience() {
+        Long experienceDifference;
+
+        UserLoginQuery user = localUser.getUser();
+
+        Result<UserInfoQueryBo> userInfoQueryBoResult = userFeignClient.queryUser(user.getId());
+        if(userInfoQueryBoResult.getCode()!=0){
+            log.info("user error");
+            throw new ApplicationException(CodeType.SERVICE_ERROR);
+        }
+
+
+        UserInfoQueryBo data = userInfoQueryBoResult.getData();
+
+        //算出还需要多少经验升到下一级
+        experienceDifference=data.getUserInfoNextExperience()-data.getUserInfoNowExperience();
+
+
+        //得到我方装备信息
+        EquipmentEntity userAllEquipment1 = iEquipmentService.getUserAllEquipment(user.getId());
+        if(userAllEquipment1==null){
+            return null;
+        }
+
+        Map<String,Object> map=new HashMap<>(16);
+
+        /**
+         * 得到我方生命值
+         */
+        double ourHealth = userAllEquipment1.getBlood() + (userAllEquipment1.getBlood() * userAllEquipment1.getBloodAdd().doubleValue());
+        int ourHealth1 = (int) ourHealth;
+
+        //我的属性对象
+        PropertyValueVo propertyValueVo=new PropertyValueVo();
+        propertyValueVo.setArtisticTalent(userAllEquipment1.getTalent());
+        propertyValueVo.setCriticalHitProbability(userAllEquipment1.getCrit());
+        propertyValueVo.setLifeValue(ourHealth1);
+        propertyValueVo.setMaximumPhysicalStrength(data.getUserInfoAllStrength());
+
+
+        //用户经验对象
+        UserValueVo userValueVo=new UserValueVo();
+        userValueVo.setCurrentExperience(data.getUserInfoNowExperience());
+        userValueVo.setCurrentLevel(data.getUserInfoGrade());
+        userValueVo.setDifference(experienceDifference);
+        userValueVo.setNextLevel(data.getUserInfoGrade()+1);
+        userValueVo.setNextLevelExperienceValue(data.getUserInfoNextExperience());
+
+
+        map.put("propertyValue",propertyValueVo);
+        map.put("userValue",userValueVo);
+        map.put("userAllEquipment1",userAllEquipment1);
+
+        return map;
     }
 
 }
