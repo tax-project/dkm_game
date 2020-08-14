@@ -55,7 +55,6 @@ public class TaskServiceImpl implements TaskService {
         List<TaskUserDetailVo> taskUserDetailVos = taskMapper.selectUserTask(type, userId);
         Map<Long, String> collect = goodsDao.selectList(new LambdaQueryWrapper<GoodsEntity>().ne(GoodsEntity::getGoodType, 1))
                 .stream().collect(Collectors.toMap(GoodsEntity::getId, GoodsEntity::getUrl));
-        GoodListImg goodImg = new GoodListImg();
         taskUserDetailVos.forEach(taskUserDetailVo -> {
             if(taskUserDetailVo.getTime()!=null&&!today.isEqual(taskUserDetailVo.getTime())&&taskUserDetailVo.getTaskType()==1){
                 taskUserDetailVo.setComplete(0);
@@ -64,6 +63,7 @@ public class TaskServiceImpl implements TaskService {
             List<GoodList> goodLists = JSON.parseArray(taskUserDetailVo.getGoodList(), GoodList.class);
             List<GoodListImg> goodListImg = new ArrayList<>();
             goodLists.forEach(goodList -> {
+                GoodListImg goodImg = new GoodListImg();
                 goodImg.setUrl(collect.get(goodList.getGoodId()));
                 goodImg.setNumber(goodList.getNumber());
                 goodListImg.add(goodImg);
@@ -143,6 +143,7 @@ public class TaskServiceImpl implements TaskService {
                     if(today.isAfter(taskUserEntity.getTime())){
                         taskUserEntity.setTuProcess(1);
                         taskUserEntity.setTime(today);
+                        taskUserEntity.setComplete(0);
                     }else if(today.isEqual(taskUserEntity.getTime())&&taskUserEntity.getComplete()!=1){
                         taskUserEntity.setTuProcess(taskUserEntity.getTuProcess()+1);
                     }
