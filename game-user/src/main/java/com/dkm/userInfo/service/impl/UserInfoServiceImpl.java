@@ -218,6 +218,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
          userInfo.setUserInfoNextExperience (seedCollectVo.getUserInfoNextExperience());
       }
 
+      if (seedCollectVo.getGrade() != null) {
+         userInfo.setUserInfoGrade(seedCollectVo.getGrade());
+      }
+
       int update = baseMapper.update(userInfo, wrapper);
 
       if (update <= 0) {

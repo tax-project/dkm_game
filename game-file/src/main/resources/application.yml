@@ -1,8 +1,6 @@
 server:
   port: 7007
   max-http-header-size: 102400
-mybatis-plus:
-  mapper-locations: classpath:com/dkm/*/dao/mapper/*.xml
 spring:
   profiles:
     active: dev

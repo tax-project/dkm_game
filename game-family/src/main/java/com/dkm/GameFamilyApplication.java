@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableTransactionManagement
 @EnableFeignClients(basePackages = { "com.dkm.feign" })
-
 @MapperScan("com.dkm.*.dao")
 public class GameFamilyApplication extends SpringBootServletInitializer {
 

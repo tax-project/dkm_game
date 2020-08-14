@@ -35,6 +35,11 @@ public class SeedCollectVo {
    private Long userInfoNextExperience;
 
    /**
+    * 升级等级
+    */
+   private Integer grade;
+
+   /**
     * 0--收取金币和红包
     * 1--收取经验和种子 不升级
     * 2-- 升级

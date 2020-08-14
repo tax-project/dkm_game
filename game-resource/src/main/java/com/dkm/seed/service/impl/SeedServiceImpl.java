@@ -679,7 +679,10 @@ public class SeedServiceImpl implements ISeedService {
             vo.setUserGold(golds);
         }
 
+       Integer grade = data.getUserInfoGrade() + 1;
        vo.setUserInfoPacketBalance(seedEnvelopes);
+
+       vo.setGrade(grade);
        vo.setUserInfoNextExperience(nextExperience.longValue());
        vo.setUserId(user.getId());
 
